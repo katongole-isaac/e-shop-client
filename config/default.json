@@ -1,0 +1,6 @@
+{
+  "apiEndpoint": "http://localhost:8000",
+  "customersRegisterEndpoint": "/customers/create",
+  "customersCheckEmailEndpoint": "/customers/checkemail",
+  "customersSignInEndpoint": "/customers/signin"
+}
