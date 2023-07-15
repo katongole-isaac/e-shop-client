@@ -3,26 +3,48 @@
  *
  */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 
 import Input from "@/components/common/input";
 import AuthLayout from "@/components/layouts/auth";
 import Error from "@/components/common/error";
+import PageTitle from "@/components/common/pageTitle";
 
 import helpers from "@/lib/helpers";
-import PageTitle from "@/components/common/pageTitle";
+import { getSignErrors, signIn, getCurrentUser } from "@/store/reducer";
 
 export default function SignIn() {
   const [error, setError] = useState("");
   const [emailChecked, setEmailChecked] = useState(false);
 
+  const signError = useSelector(getSignErrors());
+
+  const currentUser = useSelector(getCurrentUser());
+
+  const dispatch = useDispatch();
+
+  const router = useRouter();
+
   const initialValues = {
     email: "",
     password: "",
   };
+
+  useEffect(() => {
+    if (signError) return setError(signError);
+  }, [signError, currentUser]);
+
+  useEffect(() => {
+    if (Object.keys(currentUser).length > 0 && helpers.getUserToken())
+      router.replace("/");
+
+    console.log(currentUser);
+  });
 
   const handleSubmit = async (values) => {
     const payload = {
@@ -45,10 +67,9 @@ export default function SignIn() {
 
     // here do login the customer
 
-    const errMsg = await helpers.signin(payload);
-    if (errMsg) return setError(errMsg);
+    signIn(dispatch, payload);
 
-    console.log("Logged in");
+    // console.log("Logged in");
   };
 
   const validateSchema = Yup.object().shape({

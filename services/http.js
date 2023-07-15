@@ -43,4 +43,5 @@ export default {
   post: axios.post,
   put: axios.put,
   patch: axios.patch,
+  request: axios.request
 };
