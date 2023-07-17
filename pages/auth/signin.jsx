@@ -6,7 +6,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 
@@ -16,35 +15,38 @@ import Error from "@/components/common/error";
 import PageTitle from "@/components/common/pageTitle";
 
 import helpers from "@/lib/helpers";
-import { getSignErrors, signIn, getCurrentUser } from "@/store/reducer";
+import { getErrors, signIn, clearErrors } from "@/store/reducer";
+import useCurrentUser from "@/lib/useCurrentUser";
 
 export default function SignIn() {
   const [error, setError] = useState("");
   const [emailChecked, setEmailChecked] = useState(false);
 
-  const signError = useSelector(getSignErrors());
-
-  const currentUser = useSelector(getCurrentUser());
+  const signError = useSelector(getErrors());
 
   const dispatch = useDispatch();
-
-  const router = useRouter();
 
   const initialValues = {
     email: "",
     password: "",
   };
 
-  useEffect(() => {
-    if (signError) return setError(signError);
-  }, [signError, currentUser]);
+  useCurrentUser();
 
   useEffect(() => {
-    if (Object.keys(currentUser).length > 0 && helpers.getUserToken())
-      router.replace("/");
+    if (signError) {
+      setError(signError);
+      clearErrors(dispatch);
+      return;
+    }
 
-    console.log(currentUser);
-  });
+    if (error) {
+      const id = setTimeout(() => {
+        clearTimeout(id);
+        setError("");
+      }, 5000);
+    }
+  }, [signError, error]);
 
   const handleSubmit = async (values) => {
     const payload = {

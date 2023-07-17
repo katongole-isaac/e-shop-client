@@ -15,35 +15,31 @@ const slice = createSlice({
     user: {},
   },
   reducers: {
-    signedIn: (state, action) => {
-      
+    userCreated: (state, action) => {
       state.user = action.payload;
-
     },
 
     getToken: (state, action) => {
-      // here we store the token 
+      // here we store the token
       // in the localStorage
-      localStorage.setItem('x-auth-token', action.payload);
+      localStorage.setItem("x-auth-token", action.payload);
     },
 
-    signedInReqFail: (state, action) => {
-      state.errors.signin = action.payload.error;
-      
+    authReqFail: (state, action) => {
+      state.errors.error = action.payload?.error;
     },
 
-    accountCreated: (state, action) => {
-      state.user = action.payload;
+    clearAuthErrors: (state, action) => {
+      state.errors = {};
     },
 
-    loggedOut : (state, action) => {
-
-        localStorage.removeItem('x-auth-token');
-    }
+    loggedOut: (state, action) => {
+      localStorage.removeItem("x-auth-token");
+    },
   },
 });
 
-const { accountCreated, signedIn, signedInReqFail, getToken } = slice.actions;
+const { userCreated, authReqFail, getToken, clearAuthErrors } = slice.actions;
 
 export default slice.reducer;
 
@@ -62,19 +58,41 @@ export const signIn = (dispatch, payload) => {
       url: config.customersSignInEndpoint,
       method: "post",
       data: payload,
-      onSuccess: signedIn.type,
-      onError: signedInReqFail.type,
-      onToken: getToken.type
+      onSuccess: userCreated.type,
+      onError: authReqFail.type,
+      onToken: getToken.type,
     })
   );
 };
 
+export const createAccount = (dispatch, payload) => {
+  dispatch(
+    apiActions.apiCallBegan({
+      url: config.customersRegisterEndpoint,
+      method: "post",
+      data: payload,
+      onSuccess: userCreated.type,
+      onError: authReqFail.type,
+      onToken: getToken.type,
+    })
+  );
+};
+
+export const clearErrors = (dispatch) => {
+  const id = setTimeout(() => {
+    dispatch(clearAuthErrors());
+
+    clearTimeout(id);
+  }, 5000);
+};
+
 // selectors
-export const getSignErrors = () =>
+export const getErrors = () =>
   createSelector(
-    (state) => state.errors.signin,
+    (state) => state.errors.error,
     (error) => error
   );
+
 
 export const getCurrentUser = () =>
   createSelector(

@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Form, Formik } from "formik";
 import * as yup from "yup";
@@ -15,6 +15,8 @@ import AuthLayout from "@/components/layouts/auth";
 import yupPhone from "@/lib/yup-phone";
 import helpers from "@/lib/helpers";
 import PageTitle from "@/components/common/pageTitle";
+import { useDispatch, useSelector } from "react-redux";
+import { clearErrors, createAccount, getErrors } from "@/store/reducer";
 
 // attach phone validator from '@/lib/yuphone'
 yup.addMethod(yup.string, "phone", yupPhone);
@@ -26,7 +28,10 @@ export default function Register() {
     phone: "",
     password: "",
   };
-  const [error, setError] = useState("");
+
+  const error = useSelector(getErrors());
+
+  const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
     const { email, phone, password, fullname } = values;
@@ -38,11 +43,12 @@ export default function Register() {
       password,
     };
 
-    const errMsg = await helpers.registerUser(payload);
-
-    // if error , set the error message
-    if (errMsg) setError(errMsg);
+    createAccount(dispatch, payload);
   };
+
+  useEffect(() => {
+    if (error) clearErrors(dispatch);
+  }, [error]);
 
   const validationSchema = yup.object({
     fullname: yup
@@ -62,9 +68,13 @@ export default function Register() {
       .phone("${path} must be a valid phone"),
     password: yup
       .string()
-      .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/, {
-        message: "Minimum 6 char(s), madeup of atleast a digit ",
-      })
+      .matches(
+        /^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-\{\}\(\)]).{6,}$/,
+        {
+          message:
+            "Minimum 6 char(s), madeup of atleast a digit and special char(s),",
+        }
+      )
       .required("${path} is required"),
   });
 
@@ -73,7 +83,7 @@ export default function Register() {
       <PageTitle title="Create Account" />
 
       {error && <Error error={error} />}
-      
+
       <div className="p-4 border rounded">
         <h1 className="font-normal text-2xl mb-2"> Create Account </h1>
         <Formik

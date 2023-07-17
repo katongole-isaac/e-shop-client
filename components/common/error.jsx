@@ -3,12 +3,18 @@
  *
  */
 
+import { useEffect } from "react";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { RiCloseFill } from "react-icons/ri";
 
 const Error = ({ classes, error, closeBtn, toastId }) => {
   //  for toast notification [.classes]
-  classes = classes ? classes : "w-[90%]";
+
+  useEffect(()=>{
+    classes = classes ? classes : "w-[90%]";
+
+  }, [classes]);
+
 
   return (
     <div
