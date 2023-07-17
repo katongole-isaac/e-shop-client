@@ -9,7 +9,7 @@ import { Form, Formik } from "formik";
 import * as yup from "yup";
 
 import Input from "@/components/common/input";
-import Error from "@/components/common/error";
+import ErrorAlert from "@/components/common/alerts/error";
 import AuthLayout from "@/components/layouts/auth";
 
 import yupPhone from "@/lib/yup-phone";
@@ -75,13 +75,10 @@ export default function Register() {
       .string()
       // regex matches a str with letter and at least
       // a number or special char
-      .matches(
-        /^(?=.*?[A-Za-z])(?=.*?[0-9~!#=$%?/@+^&_\-\*\.\\\{\}\(\)\[\]]).{6,}$/,
-        {
-          message:
-            "Minimum 6 char(s), madeup of atleast a digit or special char(s)",
-        }
-      )
+      .matches(helpers.passwordRegexp, {
+        message:
+          "Minimum 6 char(s), madeup of atleast a digit or special char(s)",
+      })
       .required("${path} is required"),
   });
 
@@ -89,7 +86,7 @@ export default function Register() {
     <React.Fragment>
       <PageTitle title="Create Account" />
 
-      {error && <Error error={error} />}
+      {error && <ErrorAlert error={error} />}
 
       <div className="p-4 border rounded">
         <h1 className="font-normal text-2xl mb-2"> Create Account </h1>

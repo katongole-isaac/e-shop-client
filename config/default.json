@@ -2,5 +2,7 @@
   "apiEndpoint": "http://localhost:8000",
   "customersRegisterEndpoint": "/customers/create",
   "customersCheckEmailEndpoint": "/customers/checkemail",
-  "customersSignInEndpoint": "/customers/signin"
+  "customersSignInEndpoint": "/customers/signin",
+  "customersForgotPasswordEndpoint": "/customers/forgot-password",
+  "customersPasswordRecoveryEndpoint": "/customers/reset-password"
 }

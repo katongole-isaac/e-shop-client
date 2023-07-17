@@ -11,12 +11,13 @@ import * as Yup from "yup";
 
 import Input from "@/components/common/input";
 import AuthLayout from "@/components/layouts/auth";
-import Error from "@/components/common/error";
+import ErrorAlert from "@/components/common/alerts/error";
 import PageTitle from "@/components/common/pageTitle";
 
 import helpers from "@/lib/helpers";
 import { getErrors, signIn, clearErrors } from "@/store/reducer";
 import useCurrentUser from "@/lib/useCurrentUser";
+import Button from "@/components/common/button";
 
 export default function SignIn() {
   const [error, setError] = useState("");
@@ -90,7 +91,7 @@ export default function SignIn() {
   return (
     <React.Fragment>
       <PageTitle title="Sign In" />
-      {error && <Error error={error} />}
+      {error && <ErrorAlert error={error} />}
       <div className="p-4 border rounded">
         <h1 className="font-normal text-2xl mb-2"> Sign In </h1>
         <Formik
@@ -113,12 +114,7 @@ export default function SignIn() {
                 placeholder="example@gmail.com"
               />
             )}
-            <button
-              className="bg-amber-400 hover:bg-amber-500 transition duration-300 rounded w-full font-semibold p-1 inline-block m-auto "
-              type="submit"
-            >
-              continue
-            </button>
+            <Button type="submit" label="continue" />
           </Form>
         </Formik>
         <small className="block mt-4 mb-3 ">
@@ -143,7 +139,7 @@ export default function SignIn() {
               </small>
             </summary>
             <small className="ml-6  text-[11px]">
-              <Link href="/" className="link">
+              <Link href="/auth/forgot-password" className="link">
                 Forgot password?
               </Link>
             </small>
