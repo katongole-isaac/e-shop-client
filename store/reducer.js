@@ -78,6 +78,7 @@ export const createAccount = (dispatch, payload) => {
   );
 };
 
+// clears errors on sign and register pages
 export const clearErrors = (dispatch) => {
   const id = setTimeout(() => {
     dispatch(clearAuthErrors());
@@ -87,6 +88,8 @@ export const clearErrors = (dispatch) => {
 };
 
 // selectors
+
+// gets errors on sign and register pages
 export const getErrors = () =>
   createSelector(
     (state) => state.errors.error,

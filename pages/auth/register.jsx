@@ -17,6 +17,7 @@ import helpers from "@/lib/helpers";
 import PageTitle from "@/components/common/pageTitle";
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, createAccount, getErrors } from "@/store/reducer";
+import useCurrentUser from "@/lib/useCurrentUser";
 
 // attach phone validator from '@/lib/yuphone'
 yup.addMethod(yup.string, "phone", yupPhone);
@@ -32,6 +33,10 @@ export default function Register() {
   const error = useSelector(getErrors());
 
   const dispatch = useDispatch();
+
+  // for redirection to
+  // main dashboard if u logged in with this browser
+  useCurrentUser();
 
   const handleSubmit = async (values) => {
     const { email, phone, password, fullname } = values;
@@ -68,11 +73,13 @@ export default function Register() {
       .phone("${path} must be a valid phone"),
     password: yup
       .string()
+      // regex matches a str with letter and at least
+      // a number or special char
       .matches(
-        /^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-\{\}\(\)]).{6,}$/,
+        /^(?=.*?[A-Za-z])(?=.*?[0-9~!#=$%?/@+^&_\-\*\.\\\{\}\(\)\[\]]).{6,}$/,
         {
           message:
-            "Minimum 6 char(s), madeup of atleast a digit and special char(s),",
+            "Minimum 6 char(s), madeup of atleast a digit or special char(s)",
         }
       )
       .required("${path} is required"),
