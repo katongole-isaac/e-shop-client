@@ -4,6 +4,7 @@
  */
 import React, { useEffect, useState } from "react";
 import { Form, Formik } from "formik";
+import Link from "next/link";
 import * as Yup from "yup";
 
 import Input from "@/components/common/input";
@@ -16,25 +17,16 @@ import SuccessAlert from "@/components/common/alerts/success";
 import helpers from "@/lib/helpers";
 import config from "@/config/default.json";
 
-export default function SignIn() {
+export default function ForgotPassword() {
   const [error, setError] = useState(null);
   const [success, setOnSuccess] = useState(false);
-
-  useEffect(() => {
-    // clearing the alerted errors
-    if (error) {
-      const id = setTimeout(() => {
-        clearTimeout(id);
-        setError("");
-      }, 5000);
-    }
-  }, [error]);
 
   const initialValues = {
     email: "",
   };
 
   const handleSubmit = async (values) => {
+    setError("")
     const payload = {
       email: values.email.trim(),
     };
@@ -98,8 +90,7 @@ export default function SignIn() {
           <details className="text-xs">
             <summary>
               <small className=" no-underline link cursor-help text-[11px] ">
-                {" "}
-                I need more help?{" "}
+                I need more help?
               </small>
             </summary>
             <small className="px-3 my-2  text-[11px] block leading-4">
@@ -116,6 +107,13 @@ export default function SignIn() {
               still be saved in your browser. Try clearing your browser history
               and re-typing your password.
             </small>
+            <small>
+              &larr;
+              <Link href="/auth/signin" className="link text-[11px]">
+                {" "}
+                Back to Sign in
+              </Link>
+            </small>
           </details>
         </div>
       </div>
@@ -123,4 +121,4 @@ export default function SignIn() {
   );
 }
 
-SignIn.getLayout = (page) => <AuthLayout>{page} </AuthLayout>;
+ForgotPassword.getLayout = (page) => <AuthLayout>{page} </AuthLayout>;

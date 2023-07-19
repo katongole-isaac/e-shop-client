@@ -3,8 +3,9 @@
  *
  */
 
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
@@ -12,18 +13,19 @@ import * as Yup from "yup";
 import Input from "@/components/common/input";
 import AuthLayout from "@/components/layouts/auth";
 import ErrorAlert from "@/components/common/alerts/error";
+import Button from "@/components/common/button";
 import PageTitle from "@/components/common/pageTitle";
 
 import helpers from "@/lib/helpers";
-import { getErrors, signIn, clearErrors } from "@/store/reducer";
-import useCurrentUser from "@/lib/useCurrentUser";
-import Button from "@/components/common/button";
+import { userLoggedIn } from "@/store/reducer";
+import useRedirectToDashboard from "@/lib/useRedirectToDashboard";
+import config from "@/config/default.json";
 
 export default function SignIn() {
   const [error, setError] = useState("");
   const [emailChecked, setEmailChecked] = useState(false);
 
-  const signError = useSelector(getErrors());
+  const router = useRouter();
 
   const dispatch = useDispatch();
 
@@ -32,24 +34,14 @@ export default function SignIn() {
     password: "",
   };
 
-  useCurrentUser();
-
-  useEffect(() => {
-    if (signError) {
-      setError(signError);
-      clearErrors(dispatch);
-      return;
-    }
-
-    if (error) {
-      const id = setTimeout(() => {
-        clearTimeout(id);
-        setError("");
-      }, 5000);
-    }
-  }, [signError, error]);
+  // for redirecting the user to 
+  // the dashboard in case the user visits signin 
+  // page and is loggedin prior
+  useRedirectToDashboard();
 
   const handleSubmit = async (values) => {
+    setError("");
+
     const payload = {
       email: values.email.trim(),
       password: values.password,
@@ -69,10 +61,25 @@ export default function SignIn() {
     }
 
     // here do login the customer
+    const { data, errors, headers, statusCode } = await helpers.makeRequest({
+      url: config.customersSignInEndpoint,
+      method: "post",
+      payload,
+    });
 
-    signIn(dispatch, payload);
+    if (errors && errors.response) return setError(errors.response.data.error);
 
-    // console.log("Logged in");
+    if (statusCode !== 200) return;
+
+    // here everything is okay
+    // u can dispatch a createAccount action
+    userLoggedIn(dispatch, data);
+
+    // store token
+    helpers.setUserToken(headers["x-auth-token"]);
+
+    // redirect to main dashbaord
+    router.replace("/");
   };
 
   const validateSchema = Yup.object().shape({

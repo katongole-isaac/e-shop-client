@@ -11,26 +11,11 @@ import config from "@/config/default.json";
 const slice = createSlice({
   name: "user",
   initialState: {
-    errors: {},
     user: {},
   },
   reducers: {
     userCreated: (state, action) => {
       state.user = action.payload;
-    },
-
-    getToken: (state, action) => {
-      // here we store the token
-      // in the localStorage
-      localStorage.setItem("x-auth-token", action.payload);
-    },
-
-    authReqFail: (state, action) => {
-      state.errors.error = action.payload?.error;
-    },
-
-    clearAuthErrors: (state, action) => {
-      state.errors = {};
     },
 
     loggedOut: (state, action) => {
@@ -39,10 +24,14 @@ const slice = createSlice({
   },
 });
 
-const { userCreated, authReqFail, getToken, clearAuthErrors } = slice.actions;
+const { userCreated } = slice.actions;
 
 export default slice.reducer;
 
+/**
+ *
+ * @info This payload holds params for api.actions* request
+ */
 // const payload = {
 //   url,
 //   method,
@@ -52,52 +41,11 @@ export default slice.reducer;
 // };
 
 // commands
-export const signIn = (dispatch, payload) => {
-  dispatch(
-    apiActions.apiCallBegan({
-      url: config.customersSignInEndpoint,
-      method: "post",
-      data: payload,
-      onSuccess: userCreated.type,
-      onError: authReqFail.type,
-      onToken: getToken.type,
-    })
-  );
-};
+export const userLoggedIn = (dispatch, payload) =>
+  dispatch(userCreated(payload));
 
-export const createAccount = (dispatch, payload) => {
-  dispatch(
-    apiActions.apiCallBegan({
-      url: config.customersRegisterEndpoint,
-      method: "post",
-      data: payload,
-      onSuccess: userCreated.type,
-      onError: authReqFail.type,
-      onToken: getToken.type,
-    })
-  );
-};
-
-
-
-// clears errors on sign and register pages
-export const clearErrors = (dispatch) => {
-  const id = setTimeout(() => {
-    dispatch(clearAuthErrors());
-
-    clearTimeout(id);
-  }, 5000);
-};
 
 // selectors
-
-// gets errors on sign and register pages
-export const getErrors = () =>
-  createSelector(
-    (state) => state.errors.error,
-    (error) => error
-  );
-
 
 export const getCurrentUser = () =>
   createSelector(

@@ -7,19 +7,32 @@ import { useEffect } from "react";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { RiCloseFill } from "react-icons/ri";
 
-const ErrorAlert = ({ classes, error, closeBtn, toastId }) => {
+const ErrorAlert = ({
+  classes,
+  error,
+  closeBtn,
+  toastId,
+  color,
+  title,
+  borderColor,
+  textClasses,
+  children,
+}) => {
   //  for toast notification [.classes]
 
   useEffect(() => {
-    classes = classes ? classes : "w-[90%]";
   }, [classes]);
+
+  borderColor = borderColor ? borderColor : "border-red-800";
+  classes = classes ? "bg-white w-[25em]" : "w-[90%]";
+  color = color ? color : "text-red-800 ";
 
   return (
     <div
-      className={` ${classes} min-h-min border border-red-800 rounded p-4 m-auto  mb-4`}
+      className={`border ${borderColor}  ${classes} min-h-min  rounded p-4 m-auto  mb-4`}
     >
-      <div className="text-red-800  flex gap-3 relative">
-        <FaExclamationTriangle size={30} />
+      <div className=" flex gap-3 relative">
+        <FaExclamationTriangle size={30} className={`${color} `} />
         {closeBtn && (
           <RiCloseFill
             onClick={() => closeBtn(toastId.id)}
@@ -28,8 +41,10 @@ const ErrorAlert = ({ classes, error, closeBtn, toastId }) => {
           />
         )}
         <div>
-          <p> There was a problem </p>
-          {error && <small>{error} </small>}
+          <p className={`${color}`}> {title || "There was a problem"} </p>
+
+          {error && <small className={`${textClasses}`}>{error} </small>}
+          {children}
         </div>
       </div>
     </div>

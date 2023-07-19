@@ -4,20 +4,22 @@
  */
 
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import { Form, Formik } from "formik";
 import * as yup from "yup";
 
 import Input from "@/components/common/input";
-import ErrorAlert from "@/components/common/alerts/error";
+import PageTitle from "@/components/common/pageTitle";
 import AuthLayout from "@/components/layouts/auth";
+import AccountCreateWarning from "@/components/common/alerts/accountCreateWarning";
 
 import yupPhone from "@/lib/yup-phone";
 import helpers from "@/lib/helpers";
-import PageTitle from "@/components/common/pageTitle";
-import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, createAccount, getErrors } from "@/store/reducer";
-import useCurrentUser from "@/lib/useCurrentUser";
+import useRedirectToDashboard from "@/lib/useRedirectToDashboard";
+import config from "@/config/default.json";
+import { userLoggedIn } from "@/store/reducer";
 
 // attach phone validator from '@/lib/yuphone'
 yup.addMethod(yup.string, "phone", yupPhone);
@@ -30,13 +32,20 @@ export default function Register() {
     password: "",
   };
 
-  const error = useSelector(getErrors());
+  // errors returned after form submission
+  const [errors, setErrors] = useState({
+    error: "",
+    exists: false,
+    emailMsg: "",
+    phone: "",
+  });
 
   const dispatch = useDispatch();
+  const router = useRouter();
 
   // for redirection to
   // main dashboard if u logged in with this browser
-  useCurrentUser();
+  useRedirectToDashboard();
 
   const handleSubmit = async (values) => {
     const { email, phone, password, fullname } = values;
@@ -48,12 +57,49 @@ export default function Register() {
       password,
     };
 
-    createAccount(dispatch, payload);
-  };
+    const {
+      data,
+      errors: responseErrors,
+      statusCode,
+      headers,
+    } = await helpers.makeRequest({
+      url: config.customersRegisterEndpoint,
+      method: "post",
+      payload,
+    });
 
-  useEffect(() => {
-    if (error) clearErrors(dispatch);
-  }, [error]);
+    const { response } = responseErrors;
+
+    if (response && response.data) {
+      if (response.data.error === "email")
+        return setErrors((prev) => ({
+          ...prev,
+          emailMsg: payload.email,
+          error: "email",
+          exists: true,
+        }));
+
+      if (response.data.error === "phone")
+        return setErrors((prev) => ({
+          ...prev,
+          phone: payload.phone,
+          error: "phone",
+          exists: response.data.exists,
+        }));
+    }
+
+    if (statusCode !== 200) return;
+
+    // here everything is okay
+    // u can dispatch a createAccount action
+    userLoggedIn(dispatch, data);
+
+    // store token
+    helpers.setUserToken(headers["x-auth-token"]);
+
+    // redirect to main dashbaord
+    router.replace("/");
+  };
 
   const validationSchema = yup.object({
     fullname: yup
@@ -82,11 +128,20 @@ export default function Register() {
       .required("${path} is required"),
   });
 
+  if (errors.error && errors.exists)
+    return (
+      <AccountCreateWarning
+        email={errors.emailMsg}
+        onLinkClick={setErrors}
+        phone={errors.phone}
+      />
+    );
+
   return (
     <React.Fragment>
       <PageTitle title="Create Account" />
 
-      {error && <ErrorAlert error={error} />}
+      {/* {error && <ErrorAlert error={error} />} */}
 
       <div className="p-4 border rounded">
         <h1 className="font-normal text-2xl mb-2"> Create Account </h1>

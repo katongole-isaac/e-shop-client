@@ -23,21 +23,11 @@ import config from "@/config/default.json";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-export default function SignIn() {
-  const [error, setError] = useState(null);
+export default function PasswordUpdate() {
+  const [error, setError] = useState("");
   const [success, setOnSuccess] = useState(false);
 
   const router = useRouter();
-
-  useEffect(() => {
-    // clearing the alerted errors
-    if (error) {
-      const id = setTimeout(() => {
-        clearTimeout(id);
-        setError("");
-      }, 10000);
-    }
-  }, [error]);
 
   const initialValues = {
     password: "",
@@ -45,6 +35,8 @@ export default function SignIn() {
   };
 
   const handleSubmit = async (values) => {
+    setError("");
+
     const payload = {
       newPassword: values.password,
       confirmPassword: values.confirmPassword,
@@ -52,13 +44,15 @@ export default function SignIn() {
       token: router.query.token,
     };
 
-    const { errors } = await helpers.makeRequest({
+    const { errors, statusCode } = await helpers.makeRequest({
       method: "put",
       url: config.customersPasswordRecoveryEndpoint,
       payload,
     });
 
     if (errors && errors.response) return setError(errors.response.data?.error);
+
+    if (statusCode !== 200) return;
 
     setOnSuccess(true);
   };
@@ -70,10 +64,9 @@ export default function SignIn() {
           "Minimum 6 char(s), madeup of atleast a digit or special char(s)",
       })
       .required("${path} is required"),
-    confirmPassword: Yup.string().oneOf(
-      [Yup.ref("password")],
-      "password don't match"
-    ),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password")], "password don't match")
+      .required("${path} is required"),
   });
 
   return (
@@ -132,4 +125,4 @@ export default function SignIn() {
   );
 }
 
-SignIn.getLayout = (page) => <AuthLayout>{page} </AuthLayout>;
+PasswordUpdate.getLayout = (page) => <AuthLayout>{page} </AuthLayout>;

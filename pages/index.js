@@ -1,9 +1,7 @@
+import DashLayout from "@/components/layouts/dashLayout";
 import Head from "next/head";
 
-
 export default function Home() {
-  
-
   return (
     <>
       <Head>
@@ -16,3 +14,6 @@ export default function Home() {
     </>
   );
 }
+
+// Home.requireAuth = true;
+Home.getLayout = (page) => <DashLayout> {page} </DashLayout>;
