@@ -38,10 +38,16 @@ axios.interceptors.response.use(null, (error) => {
 axios.defaults.baseURL = config.apiEndpoint;
 axios.defaults.headers.common["Content-Type"] = "application/json";
 
-export default {
-  get: axios.get,
-  post: axios.post,
-  put: axios.put,
-  patch: axios.patch,
-  request: axios.request
-};
+// if x-auth-token , set its header
+const token =  typeof window !== 'undefined'? localStorage.getItem('x-auth-token'): false;
+
+if (token)
+axios.defaults.headers.common["x-auth-token"] = token;
+
+  export default {
+    get: axios.get,
+    post: axios.post,
+    put: axios.put,
+    patch: axios.patch,
+    request: axios.request,
+  };

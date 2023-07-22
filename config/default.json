@@ -4,5 +4,6 @@
   "customersCheckEmailEndpoint": "/customers/checkemail",
   "customersSignInEndpoint": "/customers/signin",
   "customersForgotPasswordEndpoint": "/customers/forgot-password",
-  "customersPasswordRecoveryEndpoint": "/customers/reset-password"
+  "customersPasswordRecoveryEndpoint": "/customers/reset-password",
+  "customersAccountUpdatesEndpoint": "/customers/update"
 }

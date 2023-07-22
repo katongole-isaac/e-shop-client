@@ -29,7 +29,9 @@ const ErrorAlert = ({
 
   return (
     <div
-      className={`border ${borderColor}  ${classes} min-h-min  rounded p-4 m-auto  mb-4`}
+      className={`border ${borderColor}  ${classes} min-h-min  rounded p-4 m-auto  mb-4  ${
+        error ? "opacity-100" : "opacity-0"
+      }  transition duration-500 ease-in-out `}
     >
       <div className=" flex gap-3 relative">
         <FaExclamationTriangle size={30} className={`${color} `} />

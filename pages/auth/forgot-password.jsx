@@ -11,7 +11,7 @@ import Input from "@/components/common/input";
 import AuthLayout from "@/components/layouts/auth";
 import ErrorAlert from "@/components/common/alerts/error";
 import PageTitle from "@/components/common/pageTitle";
-import Button from "@/components/common/button";
+import FormButton from "@/components/common/formButton";
 import SuccessAlert from "@/components/common/alerts/success";
 
 import helpers from "@/lib/helpers";
@@ -26,7 +26,7 @@ export default function ForgotPassword() {
   };
 
   const handleSubmit = async (values) => {
-    setError("")
+    setError("");
     const payload = {
       email: values.email.trim(),
     };
@@ -79,7 +79,7 @@ export default function ForgotPassword() {
               name="email"
               placeholder="example@gmail.com"
             />
-            <Button
+            <FormButton
               type="submit"
               label="continue"
               disabled={success ? true : false}

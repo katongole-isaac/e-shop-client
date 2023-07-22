@@ -15,7 +15,7 @@ import Input from "@/components/common/input";
 import AuthLayout from "@/components/layouts/auth";
 import ErrorAlert from "@/components/common/alerts/error";
 import PageTitle from "@/components/common/pageTitle";
-import Button from "@/components/common/button";
+import FormButton from "@/components/common/formButton";
 import PasswordUpdatedSuccess from "@/components/common/alerts/passwordUpdateSuccess";
 
 import helpers from "@/lib/helpers";
@@ -102,7 +102,7 @@ export default function PasswordUpdate() {
                 name="confirmPassword"
                 placeholder="confirm password"
               />
-              <Button type="submit" label="recovery password" />
+              <FormButton type="submit" label="recovery password" />
             </Form>
           </Formik>
         )}

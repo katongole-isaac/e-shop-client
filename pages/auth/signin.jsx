@@ -13,13 +13,14 @@ import * as Yup from "yup";
 import Input from "@/components/common/input";
 import AuthLayout from "@/components/layouts/auth";
 import ErrorAlert from "@/components/common/alerts/error";
-import Button from "@/components/common/button";
+import FormButton from "@/components/common/formButton";
 import PageTitle from "@/components/common/pageTitle";
 
 import helpers from "@/lib/helpers";
 import { userLoggedIn } from "@/store/reducer";
 import useRedirectToDashboard from "@/lib/useRedirectToDashboard";
 import config from "@/config/default.json";
+import BreadCrumb from "@/components/common/breadCrumb";
 
 export default function SignIn() {
   const [error, setError] = useState("");
@@ -34,8 +35,8 @@ export default function SignIn() {
     password: "",
   };
 
-  // for redirecting the user to 
-  // the dashboard in case the user visits signin 
+  // for redirecting the user to
+  // the dashboard in case the user visits signin
   // page and is loggedin prior
   useRedirectToDashboard();
 
@@ -121,7 +122,7 @@ export default function SignIn() {
                 placeholder="example@gmail.com"
               />
             )}
-            <Button type="submit" label="continue" />
+            <FormButton type="submit" label="continue" />
           </Form>
         </Formik>
         <small className="block mt-4 mb-3 ">

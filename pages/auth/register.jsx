@@ -105,7 +105,7 @@ export default function Register() {
     fullname: yup
       .string()
       .matches(
-        /^(?=.{3,40}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9_\s]+(?<![_.])$/,
+        helpers.usernameRegexp,
         "Minimum 3 char(s), only contain char(s), digit and _ "
       )
       .required("${path} is required"),
