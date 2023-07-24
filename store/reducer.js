@@ -30,6 +30,10 @@ const slice = createSlice({
 
       if (error) state.error = error?.error;
     },
+    addressAdded: (state, action) => {
+      state.success = true;
+      state.user.address = action.payload.address;
+    },
     loggedOut: (state, action) => {
       localStorage.removeItem("x-auth-token");
     },
@@ -53,7 +57,8 @@ const {
   usernameChangedFailed,
   clearSuccessAndError,
   userReqSucceed,
-  setReqErrors
+  setReqErrors,
+  addressAdded,
 } = slice.actions;
 
 export default slice.reducer;
@@ -121,6 +126,21 @@ export const unSetSuccessAndError = (dispatch, { error, success }) => {
   }, 10000);
 };
 
+export const addAddress = (dispatch, payload) => {
+
+  dispatch(
+    apiActions.apiCallBegan({
+      url: config.customersAccountUpdatesEndpoint,
+      method: "put",
+      data: payload,
+      onSuccess: addressAdded.type,
+      onError: setReqErrors.type,
+    })
+  );
+};
+
+
+
 // selectors
 
 export const getCurrentUser = () =>
@@ -142,4 +162,8 @@ export const getUserReqSuccess = () =>
   );
 
   
-
+export const getUserAddress = () =>
+  createSelector(
+    (state) => state.user,
+    (user) => user.address
+  );

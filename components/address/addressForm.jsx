@@ -4,24 +4,63 @@
  */
 
 import * as yup from "yup";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import Input from "../common/input";
-import MyForm from "./form";
 import helpers from "@/lib/helpers";
 import FormSelect from "../common/formSelect";
+import MyForm from "./form";
+import yupPhone from "@/lib/yup-phone";
+import { addAddress, getUserAddress, unSetUserReqErrors } from "@/store/reducer";
 
-const AddressForm = () => {
+yup.addMethod(yup.string, "phone", yupPhone);
+
+const AddressForm = ({  success, onCloseEdit }) => {
+  const [countries, setCountries] = useState([]);
+
+  const [backToEdit, setBackToEdit] = useState(false);
+
+  const address = useSelector(getUserAddress());
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // get a list of countries
+
+    const func = async () => {
+      const data = await helpers.getCountries();
+      if (data.length > 0) setCountries(data.sort());
+    };
+
+    func();
+  }, []);
+
+
+
+  useEffect(()=>{
+
+
+    if (success && backToEdit ) onCloseEdit(false);
+
+  }, [backToEdit, success]);
+
   const initialValues = {
-    country: ["", "Country/Region"],
-    select: ["", "Select", null, null, (props) => <FormSelect {...props} />],
-    fullname: ["", "Fullname (first and last name)"],
-    street: ["", "Street address"],
-    city: ["", "City"],
-    state: ["", "State/Province/Region"],
-    zipCode: ["", "Zip Code"],
-    phone: ["", "Phone number", "tel", "placeholder"],
+    country: [
+      address?.country || "",
+      "Country/Region",
+      null,
+      null,
+      (props) => <FormSelect options={countries} {...props} />,
+    ],
+    fullname: [address?.fullname || "", "Fullname (first and last name)"],
+    street: [address?.street || "", "Street address"],
+    city: [address?.city || "", "City"],
+    state: [address?.state || "", "State/Province/Region"],
+    zipCode: [address?.zipCode || "", "Zip Code"],
+    phone: [address?.phone || "", "Phone number", "tel", "placeholder"],
   };
 
+  const requiredMsg = "${path} is required";
   const validateSchema = yup.object({
     fullname: yup
       .string()
@@ -29,50 +68,57 @@ const AddressForm = () => {
         helpers.usernameRegexp,
         "Minimum 3 char(s), only contain char(s), digit and _ "
       )
-      .required("${path} is required"),
-    select: yup.string().required("${path} is required"),
+      .required(requiredMsg),
     country: yup
       .string()
       .matches(
         /^(?=.*?[A-Za-z])[A-Za-z]{3,40}$/,
         "Minimum 3 char(s), only letters allowed "
       )
-      .required("${path} is required"),
+      .required(requiredMsg),
+    zipCode: yup.number().required(requiredMsg),
     street: yup
       .string()
       .matches(
         helpers.stringRegexp,
         "Minimum 3 char(s), only contain char(s), digit and _ "
       )
-      .required("${path} is required"),
+      .required(requiredMsg),
     city: yup
       .string()
       .matches(
         helpers.stringRegexp,
         "Minimum 3 char(s), only contain char(s), digit and _ "
       )
-      .required("${path} is required"),
+      .required(requiredMsg),
     state: yup
       .string()
       .matches(
         helpers.stringRegexp,
         "Minimum 3 char(s), only contain char(s), digit and _ "
       )
-      .required("${path} is required"),
+      .required(requiredMsg),
+    phone: yup
+      .string()
+      .required("Phone is required")
+      .phone("${path} must be a valid phone"),
   });
 
   const handleSubmit = (values) => {
-    console.log(values);
+
+    unSetUserReqErrors(dispatch);
+    addAddress(dispatch, { address: values });
+
+    setBackToEdit(true);
   };
 
-  <MyForm initialValues onSumbit validate />;
   return (
-    <div className="w-full over-hidden border">
+    <div className="w-full over-hidden ">
       <MyForm
         initialValues={initialValues}
-        onSumbit={handleSubmit}
+        onSubmit={handleSubmit}
         validate={validateSchema}
-        btnLabel="Add address"
+        btnLabel={`${address ? "save changes" : "Add address"}`}
       />
     </div>
   );

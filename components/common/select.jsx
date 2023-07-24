@@ -42,7 +42,7 @@ const Select = ({ list, search, onSetSearch, form }) => {
 
     if (formik)
       return (
-        <div className="mt-1 mb-2 flex flex-col gap-2">
+        <div className="mt-1 mb-3 flex flex-col gap-2">
           <label
             htmlFor={form.field.name}
             className={`font-semibold after:content-['${form?.content}'] after:ml-0.5 after:text-red-500`}
@@ -81,7 +81,7 @@ const Select = ({ list, search, onSetSearch, form }) => {
   };
 
   const setItemOnFormik = (item) => {
-    onSetSearch(item);
+    onSetSearch(item.toLowerCase().trim());
 
     SetShowDataList(false);
   };

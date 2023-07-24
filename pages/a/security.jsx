@@ -6,7 +6,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GrStatusGood } from "react-icons/gr";
+import Link from "next/link";
 
 import BreadCrumb from "@/components/common/breadCrumb";
 import Button from "@/components/common/button";
@@ -14,7 +14,7 @@ import PageTitle from "@/components/common/pageTitle";
 import DashLayout from "@/components/layouts/dashLayout";
 import EditName from "@/components/security/editName";
 import EditPassword from "@/components/security/editPassword";
-import SuccessAlert from "@/components/common/alerts/success";
+import CustomSuccess from "@/components/common/alerts/customSuccess";
 
 import {
   getCurrentUser,
@@ -22,7 +22,6 @@ import {
   getUserReqSuccess,
   getUserReqError,
 } from "@/store/reducer";
-import Link from "next/link";
 
 export default function Security() {
   const pageName = "Login & Security";
@@ -122,14 +121,4 @@ const ModifiedSection = ({ label, content, onClick, order }) => {
   );
 };
 
-const CustomSuccess = () => (
-  <SuccessAlert classes="w-[30rem]">
-    <div className="flex gap-3 items-center ">
-      <GrStatusGood size={30} />
-      <div className="">
-        <h1 className="font-normal text-xl "> Success </h1>
-        <p>Your account has been updated successfully </p>
-      </div>
-    </div>
-  </SuccessAlert>
-);
+

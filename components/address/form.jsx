@@ -2,7 +2,6 @@ import { Form, Formik } from "formik";
 import Input from "../common/input";
 import FormButton from "../common/formButton";
 import React from "react";
-import FormSelect from "../common/formSelect";
 
 // initialValues = {
 //    name : [value, label, type, placeholder ]
@@ -17,10 +16,10 @@ import FormSelect from "../common/formSelect";
  * `let initialValues = {
  *       fieldName: [value, label, type, placeholder, (props)=> JSX.Elem]
  * }`
- * @param {*} Options
- * @returns
+ * @param {object} Options
+ * @returns `JSX.ElEMENT`
  */
-const MyForm = ({ initialValues, onSubmit, validate, btnLabel }) => {
+const MyForm = ({ initialValues, call, onSubmit, validate, btnLabel }) => {
   const inputs = [];
   const formInitialValues = {};
 
@@ -55,7 +54,11 @@ const MyForm = ({ initialValues, onSubmit, validate, btnLabel }) => {
           <React.Fragment key={idx}> {inputElement}</React.Fragment>
         ))}
 
-        <FormButton label={btnLabel} classes="min-w-[150px] w-[150px]" />
+        <FormButton
+          label={btnLabel}
+          type="submit"
+          classes="min-w-[150px] w-[150px]"
+        />
       </Form>
     </Formik>
   );
