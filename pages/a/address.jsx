@@ -5,6 +5,7 @@
 
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import BreadCrumb from "@/components/common/breadCrumb";
@@ -13,6 +14,7 @@ import PageTitle from "@/components/common/pageTitle";
 import DashLayout from "@/components/layouts/dashLayout";
 import CustomSuccess from "@/components/common/alerts/customSuccess";
 import ErrorAlert from "@/components/common/alerts/error";
+import ConfirmDelete from "@/components/common/alerts/confirmDelete";
 import ShowAddress from "@/components/address/showAddress";
 import AddressForm from "@/components/address/addressForm";
 
@@ -21,8 +23,7 @@ import {
   getUserReqError,
   getUserReqSuccess,
   unSetSuccessAndError,
-} from "@/store/reducer";
-import { useState } from "react";
+} from "@/store/userReducer";
 
 export default function Address() {
   const pageName = "Address Information";
@@ -42,6 +43,7 @@ export default function Address() {
 
   return (
     <div className=" w-full">
+
       <PageTitle title={pageName} />
       <BreadCrumb paths={router.route.split("/")} labels={linkLabels} />
       {error && <ErrorAlert error={error} />}
@@ -57,7 +59,7 @@ export default function Address() {
           ) : !editAddress ? (
             <ShowAddress setShowEdit={setEditAddress} address={address} />
           ) : (
-            // if you want to edit 
+            // if you want to edit
             // initial address is populated into addressForm
             <AddressForm
               address={address}
@@ -66,7 +68,6 @@ export default function Address() {
             />
           )}
         </div>
-
         <div className=" w-[380px] lg:w-96  absolute lg:h-fit right-28 lg:-right-44 "></div>
       </div>
 

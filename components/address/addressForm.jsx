@@ -11,7 +11,7 @@ import helpers from "@/lib/helpers";
 import FormSelect from "../common/formSelect";
 import MyForm from "./form";
 import yupPhone from "@/lib/yup-phone";
-import { addAddress, getUserAddress, unSetUserReqErrors } from "@/store/reducer";
+import { addAddress, getUserAddress, unSetUserReqErrors } from "@/store/userReducer";
 
 yup.addMethod(yup.string, "phone", yupPhone);
 

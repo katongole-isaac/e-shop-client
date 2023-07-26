@@ -17,15 +17,16 @@ const ErrorAlert = ({
   borderColor,
   textClasses,
   children,
+  iconColor,
 }) => {
   //  for toast notification [.classes]
 
-  useEffect(() => {
-  }, [classes]);
+  useEffect(() => {}, [classes]);
 
   borderColor = borderColor ? borderColor : "border-red-800";
   classes = classes ? "bg-white w-[25em]" : "w-[90%]";
   color = color ? color : "text-red-800 ";
+  iconColor = iconColor ? iconColor : "text-red-800";
 
   return (
     <div
@@ -34,7 +35,7 @@ const ErrorAlert = ({
       }  transition duration-500 ease-in-out `}
     >
       <div className=" flex gap-3 relative">
-        <FaExclamationTriangle size={30} className={`${color} `} />
+        <FaExclamationTriangle size={30} className={`${iconColor || color} `} />
         {closeBtn && (
           <RiCloseFill
             onClick={() => closeBtn(toastId.id)}

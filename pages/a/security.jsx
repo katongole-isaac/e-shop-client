@@ -21,7 +21,7 @@ import {
   unSetSuccessAndError,
   getUserReqSuccess,
   getUserReqError,
-} from "@/store/reducer";
+} from "@/store/userReducer";
 
 export default function Security() {
   const pageName = "Login & Security";

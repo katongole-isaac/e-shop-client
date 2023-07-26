@@ -5,5 +5,8 @@
   "customersSignInEndpoint": "/customers/signin",
   "customersForgotPasswordEndpoint": "/customers/forgot-password",
   "customersPasswordRecoveryEndpoint": "/customers/reset-password",
-  "customersAccountUpdatesEndpoint": "/customers/update"
+  "customersAccountUpdatesEndpoint": "/customers/update",
+  "customersAccountDeleteEndpoint": "/customers/delete",
+
+  "productsEndpoint": "/products"
 }

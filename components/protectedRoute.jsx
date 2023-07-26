@@ -4,7 +4,7 @@
  */
 
 import helpers from "@/lib/helpers";
-import { getCurrentUser } from "@/store/reducer";
+import { getCurrentUser } from "@/store/userReducer";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";

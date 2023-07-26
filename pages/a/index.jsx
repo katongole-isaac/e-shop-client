@@ -4,6 +4,8 @@
  */
 import { SiAdguard } from "react-icons/si";
 import { FaAddressBook } from "react-icons/fa";
+import { AiFillDelete } from "react-icons/ai";
+
 
 import MenuCard from "@/components/common/dashboard/menuCard";
 import PageTitle from "@/components/common/pageTitle";
@@ -12,7 +14,7 @@ import DashLayout from "@/components/layouts/dashLayout";
 export default function Account() {
   
   return (
-    <div className="w-full border ">
+    <div className="w-full ">
       <PageTitle title="Your Account" />
       <div className="mb-3">
         <h4 className="text-lg font-medium"> Your Account </h4>
@@ -32,19 +34,10 @@ export default function Account() {
           icon={<FaAddressBook color="skyblue" size={40} />}
         />
         <MenuCard
-          title="Login & Security"
-          content="Edit login, name and mobile number"
-          icon={<SiAdguard color="skyblue" size={40} />}
-        />
-        <MenuCard
-          title="Login & Security"
-          content="Edit login, name and mobile number"
-          icon={<SiAdguard color="skyblue" size={40} />}
-        />{" "}
-        <MenuCard
-          title="Login & Security"
-          content="Edit login, name and mobile number"
-          icon={<SiAdguard color="skyblue" size={40} />}
+          title="Account Deactivation"
+          href="a/deletion"
+          content="Close my [company name] account permanently "
+          icon={<AiFillDelete color="skyblue" size={40} />}
         />
       </div>
     </div>

@@ -3,7 +3,6 @@
  *
  */
 
-import helpers from "@/lib/helpers";
 import React, { useEffect, useRef, useState } from "react";
 
 const Select = ({ list, search, onSetSearch, form }) => {

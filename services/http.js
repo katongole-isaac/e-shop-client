@@ -8,7 +8,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 import ErrorAlert from "@/components/common/alerts/error";
-import config from "@/config/default.json";
+import config from "@/config/default.json"; 
 
 // handle unexpected errors => errors that shudn't occur under normal operations e.g (ntwrk down, server down, DB down)
 axios.interceptors.response.use(null, (error) => {

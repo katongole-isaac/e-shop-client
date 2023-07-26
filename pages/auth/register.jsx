@@ -19,7 +19,7 @@ import yupPhone from "@/lib/yup-phone";
 import helpers from "@/lib/helpers";
 import useRedirectToDashboard from "@/lib/useRedirectToDashboard";
 import config from "@/config/default.json";
-import { userLoggedIn } from "@/store/reducer";
+import { userLoggedIn } from "@/store/userReducer";
 
 // attach phone validator from '@/lib/yuphone'
 yup.addMethod(yup.string, "phone", yupPhone);

@@ -16,7 +16,7 @@ import {
   getUserReqError,
   requestChangeUserName,
   unSetUserReqErrors,
-} from "../../store/reducer";
+} from "../../store/userReducer";
 
 const EditName = () => {
   const dispatch = useDispatch();

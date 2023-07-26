@@ -12,7 +12,7 @@ import SecurityChangeLayout from "../layouts/SecurityChange";
 import Input from "../common/input";
 import FormButton from "../common/formButton";
 import helpers from "@/lib/helpers";
-import { getUserReqError, requestChangePassword } from "@/store/reducer";
+import { getUserReqError, requestChangePassword } from "@/store/userReducer";
 
 const EditPassword = () => {
   const initialValues = {

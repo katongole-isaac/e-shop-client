@@ -18,8 +18,10 @@ const api =
     // payload is custom
     // if u want to get the payload from outside this middleware
     // or response return from the request
-    const { url, method, data, onSuccess, onError, onToken, payload } =
+    const { url, method, data, onSuccess,onStart, onError, onToken, payload } =
       action.payload;
+
+      if(onStart) dispatch({type: onStart});
 
     try {
       const response = await http.request({

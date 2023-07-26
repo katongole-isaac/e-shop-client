@@ -17,10 +17,9 @@ import FormButton from "@/components/common/formButton";
 import PageTitle from "@/components/common/pageTitle";
 
 import helpers from "@/lib/helpers";
-import { userLoggedIn } from "@/store/reducer";
+import { userLoggedIn } from "@/store/userReducer";
 import useRedirectToDashboard from "@/lib/useRedirectToDashboard";
 import config from "@/config/default.json";
-import BreadCrumb from "@/components/common/breadCrumb";
 
 export default function SignIn() {
   const [error, setError] = useState("");
