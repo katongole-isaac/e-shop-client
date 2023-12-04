@@ -4,12 +4,16 @@
  */
 
 import { combineReducers } from "@reduxjs/toolkit";
-import userReducer from "./userReducer";
-import productReducer from "./productsReducer";
+
+import auth from "./userReducer";
+import products from "./productsReducer";
+import cart from "./cartReducer";
+
 
 const reducer = combineReducers({
-  auth: userReducer,
-  products: productReducer,
+  auth,
+  products,
+  cart
 });
 
 export default reducer;

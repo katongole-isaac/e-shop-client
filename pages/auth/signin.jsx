@@ -37,7 +37,7 @@ export default function SignIn() {
   // for redirecting the user to
   // the dashboard in case the user visits signin
   // page and is loggedin prior
-  useRedirectToDashboard();
+  useRedirectToDashboard(router.query?.cb);
 
   const handleSubmit = async (values) => {
     setError("");
@@ -164,7 +164,14 @@ export default function SignIn() {
         </div>
 
         <div className="flex mt-8">
-          <Link href="/auth/register" className=" block w-full">
+          <Link
+            href={`${
+              router.query?.cb
+                ? "/auth/register" + "?cb=" + router.query.cb
+                : "/auth/register"
+            }`}
+            className=" block w-full"
+          >
             <button
               role="link"
               className="text-xs border w-full p-1 font-medium shadow-sm hover:bg-slate-100 rounded"

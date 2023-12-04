@@ -7,6 +7,7 @@
 import React, { useEffect, useState } from "react";
 
 import AppBar from "../common/nav/navbar";
+import Footer from "../common/footer/footerNav";
 
 /**
  *
@@ -41,6 +42,8 @@ const DashLayout = ({ children, isMaxWidth }) => {
       ) : (
         children
       )}
+
+      <Footer />
     </React.Fragment>
   );
 };

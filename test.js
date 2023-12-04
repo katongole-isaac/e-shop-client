@@ -15,3 +15,4 @@ export const getData = async () => {
     errors,
   };
 };
+        ether e6:8f:70:d2:8a:b3  txqueuelen 1000  (Ethernet)

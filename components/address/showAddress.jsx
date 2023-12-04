@@ -30,7 +30,7 @@ const ShowAddress = ({ address, setShowEdit }) => {
       <ConfirmDelete
         showModal={showModal}
         onShowModal={setShowModal}
-        btnRef={removeBtnRef}
+        ref={removeBtnRef}
         onContinue={deleteUserAddress}
       >
         <p>

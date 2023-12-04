@@ -8,5 +8,10 @@
   "customersAccountUpdatesEndpoint": "/customers/update",
   "customersAccountDeleteEndpoint": "/customers/delete",
 
-  "productsEndpoint": "/products"
+  "productsEndpoint": "/products",
+
+
+  "cacheValidForMinutes": 10
+
+
 }

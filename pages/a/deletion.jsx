@@ -86,7 +86,7 @@ export default function Deletion() {
         <ConfirmDelete
           showModal={showModal}
           onShowModal={setShowModal}
-          btnRef={btnRef}
+          ref={btnRef}
           onContinue={handleContinueDeletion}
         >
           <p className="text-[11px]">
@@ -145,7 +145,7 @@ export default function Deletion() {
           Please select the main reason for closing your [company name] account
           (Optional)
         </p>
-        <InputSelect options={options} />
+        <InputSelect label="Choose Reason" options={options} />
 
         <div className="mt-4 space-x-2">
           <input

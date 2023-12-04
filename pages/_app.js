@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { Provider } from "react-redux";
+import { useRouter } from "next/router";
 import { PersistGate } from "redux-persist/integration/react";
 
 import configureStore, { persistor } from "@/store/configureStore";
 
 import ProtectedRoute from "@/components/protectedRoute";
 import "@/styles/globals.css";
+import "swiper/css";
+import usePreviousUrl from "@/hooks/usePreviousUrl";
+
 
 const store = configureStore();
 
@@ -15,7 +19,14 @@ const store = configureStore();
  *  e.g Cmp.requireAuth
  */
 export default function App({ Component, pageProps }) {
+ 
   const getLayout = Component.getLayout || ((page) => page);
+
+  const previousUrl = usePreviousUrl();
+
+  const _Component = () => (
+    <Component {...pageProps} previousUrl={previousUrl} />
+  );
 
   return (
     <Provider store={store}>
@@ -25,11 +36,11 @@ export default function App({ Component, pageProps }) {
 
           {getLayout(
             Component.requireAuth ? (
-              <ProtectedRoute>
-                <Component {...pageProps} />
+              <ProtectedRoute previousUrl={previousUrl}>
+               {_Component()}
               </ProtectedRoute>
             ) : (
-              <Component {...pageProps} />
+             _Component()
             )
           )}
         </React.Fragment>

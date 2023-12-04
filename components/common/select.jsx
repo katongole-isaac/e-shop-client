@@ -3,10 +3,11 @@
  *
  */
 
-import React, { useEffect, useRef, useState } from "react";
+import useClickOutside from "@/lib/useClickOutside";
+import React, {  useRef, useState } from "react";
 
 const Select = ({ list, search, onSetSearch, form }) => {
-  const [showDataList, SetShowDataList] = useState(false);
+  const [showDataList, setShowDataList] = useState(false);
 
   const divRef = useRef();
   const inputRef = useRef();
@@ -15,23 +16,12 @@ const Select = ({ list, search, onSetSearch, form }) => {
     onSetSearch(target.value.toLowerCase().trim());
   };
 
-  const checkClick = (e) => {
-    // if u click outside the div
-    // and not inisde the input
-    if (
-      !divRef.current?.contains(e.target) &&
-      !inputRef.current.contains(e.target)
-    )
-      SetShowDataList(false);
-  };
-
-  useEffect(() => {
-    if (showDataList) document.body.addEventListener("click", checkClick);
-
-    return () => {
-      document.body.removeEventListener("click", checkClick);
-    };
-  }, [showDataList]);
+  useClickOutside({
+    originRef: inputRef,
+    popupRef: divRef,
+    showModal: showDataList,
+    onSetShowModal: setShowDataList,
+  });
 
   const input = (formik) => {
     const errorClasses =
@@ -54,7 +44,7 @@ const Select = ({ list, search, onSetSearch, form }) => {
             className={` ${errorClasses}   border py-0.5 px-2 focus:outline-offset-2 rounded transition ease-out duration-700 `}
             autoComplete="off"
             type="select"
-            onFocus={() => SetShowDataList(true)}
+            onFocus={() => setShowDataList(true)}
             {...form.field}
             {...form.props}
           />
@@ -72,7 +62,7 @@ const Select = ({ list, search, onSetSearch, form }) => {
         type="search"
         className=" focus:outline-blue-200 border-zinc-400 w-full border py-0.5 px-2 focus:outline-offset-2 rounded transition ease-out duration-700"
         value={search}
-        onFocus={() => SetShowDataList(true)}
+        onFocus={() => setShowDataList(true)}
         autoComplete="off"
         onChange={(e) => handleChange(e)}
       />
@@ -82,7 +72,7 @@ const Select = ({ list, search, onSetSearch, form }) => {
   const setItemOnFormik = (item) => {
     onSetSearch(item.toLowerCase().trim());
 
-    SetShowDataList(false);
+    setShowDataList(false);
   };
 
   return (

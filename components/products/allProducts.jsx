@@ -12,9 +12,7 @@ import Product from "./product";
 
 const AllProducts = () => {
   const dispatch = useDispatch();
-  const { list: products, loading } = useSelector(loadProducts());
-
-  console.log(products);
+  let { list: products, loading } = useSelector(loadProducts());
 
   useEffect(() => {
     requestProducts(dispatch);
@@ -27,8 +25,16 @@ const AllProducts = () => {
       </div>
     );
 
-    if(products.length > 0 ) 
-    return <div className="flex gap-2 w-full max-h-[220vh] flex-wrap  ">
+  if (products.length <= 0)
+    return (
+      <div className="w-full  h-[50vh] flex items-center justify-center ">
+        <p className="font-semibold text-[20px]">
+          No Products in the Store yet
+        </p>
+      </div>
+    );
+
+    return <div className="flex gap-2 w-full  flex-wrap  ">
         {
             products.map(product => <Product key={product._id} {...product} />)
         }

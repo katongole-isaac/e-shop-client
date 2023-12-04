@@ -13,11 +13,11 @@ import { useState } from "react";
 
 /**
  * Plain input Select element
- * @param {*} param0
+ * @param {object}  options - an object e.g 
  * @returns `JSX.Element`
  *
  */
-const InputSelect = ({ options }) => {
+const InputSelect = ({ options, label,  }) => {
   const [value, setValue] = useState("");
   const elements = [];
 
@@ -35,7 +35,7 @@ const InputSelect = ({ options }) => {
       defaultValue={value}
       onChange={(e) => setValue(e.target.value)}
     >
-      {!value && <option value=""> Choose Reason </option>}
+      {!value && <option value=""> {label} </option>}
 
       {elements.map((elem) => elem)}
     </select>

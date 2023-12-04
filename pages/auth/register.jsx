@@ -97,6 +97,8 @@ export default function Register() {
     // store token
     helpers.setUserToken(headers["x-auth-token"]);
 
+    if(router.query?.cb) return router.replace(router.query.cb);
+
     // redirect to main dashbaord
     router.replace("/");
   };
