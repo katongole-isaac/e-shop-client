@@ -57,7 +57,7 @@ const ShowAccount = () => {
         {menu.map(({ path, label }) => (
           <li
             key={path}
-            className="list-none text-xs hover:underline hover:text-amber-600 "
+            className="list-none text-xs hover:underline hover:text-amber-600 w-max" 
           >
             <Link href={path}>{label}</Link>
           </li>
