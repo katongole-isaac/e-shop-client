@@ -12,7 +12,7 @@ const DropDown = ({ content, dropdown }) => {
         {content}
 
         <IoMdArrowDropdown size={20} className="text-slate-400" />
-        <div className=" absolute -bottom-[2.5em] invisible h-[40px] w-12 bg-amber-300 group-hover:visible">
+        <div className=" absolute -bottom-[3em] invisible h-[40px] group-hover:visible z-30 ">
           {dropdown}
         </div>
       </div>
