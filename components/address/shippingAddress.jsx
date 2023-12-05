@@ -13,6 +13,8 @@ import ShowAddress from "./showAddress";
 const ShippingAddress = () => {
   const { address } = useSelector(getCurrentUser());
 
+  console.log(address);
+
   return (
     <div className="bg-white py-2 px-6 shadow-md">
       <h1 className="font-bold  p-1"> Shipping Address </h1>
@@ -21,9 +23,8 @@ const ShippingAddress = () => {
         <div className="py-2 font-medium">
           <h1> Your Address</h1>
         </div>
-        {address && <AddAddress />}
-
-        {!address && <ShowAddress address={address} />}
+       
+        {!address ? <AddAddress /> :  <ShowAddress address={address} />}
       </div>
     </div>
   );

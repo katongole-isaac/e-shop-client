@@ -33,8 +33,8 @@ const AddPayment = () => (
     </small>
     <div className="flex  gap-1 items-center p-2 border rounded-md  ">
       <BiPlus className="text-slate-400" />
-      <Link href="/a/address" className="text-[12px] link">
-        Add address
+      <Link href="" className="text-[12px] link">
+        Add payment
       </Link>
     </div>
   </div>

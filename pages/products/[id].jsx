@@ -29,8 +29,7 @@ export default function SingleProduct() {
   return (
     <React.Fragment>
       <div className="my-3 p-1 text-[12px] flex justify-between w-full ">
-        <Link href="/" className="link w-fit text-gray-700 ">
-          {" "}
+        <Link href="/products" className="link w-fit text-gray-700 ">
           &larr; Back to results
         </Link>
         <Link href="/a/cart" className="link w-fit text-gray-700">

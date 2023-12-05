@@ -5,17 +5,23 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from 'next/image';
+
+import Logo from '@/assets/logos/logo.svg';
+
 
 export default function AuthLayout({ children, classes, widthClasses }) {
   return (
     <React.Fragment>
       <div className={` ${classes} h-auto w-auto`}>
-        <div className={` ${widthClasses || "max-w-xs"}  m-auto pt-8`}>
-          <header>
+        <div className={` ${widthClasses || "max-w-xs"}  m-auto `}>
+          <header className="flex justify-center " >
             {/* you can include a company logo here
              * instead of h2 element
              */}
-            <h2 className="mb-4 text-center font-medium"> Company Logo </h2>
+            <div className=" w-[200px] h-[200px] flex justify-center p-2 ">
+              <Image width={100} height={100} src={Logo} alt="logo webp" className="w-full h-full" objectFit="cover" />
+            </div>
           </header>
           {children}
         </div>
