@@ -186,13 +186,13 @@ export default function Register() {
         <small className="block mt-4 mb-3 ">
           By creating an account, you agree to the Company's
           <span>
-            <a href="" className="link">
+            <Link href="" className="link">
               &nbsp; Conditions of Use
-            </a>
+            </Link>
             &nbsp; and
-            <a href="" className="link">
+            <Link href="/privacy" className="link">
               &nbsp;Privacy Notice
-            </a>
+            </Link>
           </span>
         </small>
 
